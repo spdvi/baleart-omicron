@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package artbalearomicron.Home;
+
+import artbalearomicron.Panels.ExpoPanel;
 
 /**
  *
@@ -11,11 +8,13 @@ package artbalearomicron.Home;
  */
 public class MainForm extends javax.swing.JFrame {
 
+    ExpoPanel expoPanel = new ExpoPanel();
     /**
      * Creates new form MainForm
      */
     public MainForm() {
         initComponents();
+        pnlMain.add(expoPanel);
     }
 
     /**
