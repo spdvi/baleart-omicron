@@ -5,18 +5,28 @@
  */
 package artbalearomicron.Dialogs;
 
+import DataAcces.ApiClient;
+import Models.Usuari;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Alumne
  */
 public class RegisterDialog extends javax.swing.JDialog {
 
+    private String lastEmail;
     /**
      * Creates new form RegisterDialog
      */
     public RegisterDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
+        lblErrorMessage.setVisible(false);
     }
 
     /**
@@ -40,6 +50,7 @@ public class RegisterDialog extends javax.swing.JDialog {
         txtEmail = new javax.swing.JTextField();
         lblRegister = new javax.swing.JLabel();
         btnSignUp = new javax.swing.JButton();
+        lblErrorMessage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -79,6 +90,11 @@ public class RegisterDialog extends javax.swing.JDialog {
         lblEmail.setText("E-Mail");
 
         txtEmail.setText("Introduce your E-Mail adress");
+        txtEmail.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtEmailFocusGained(evt);
+            }
+        });
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEmailActionPerformed(evt);
@@ -90,10 +106,24 @@ public class RegisterDialog extends javax.swing.JDialog {
 
         btnSignUp.setText("SIGN UP");
 
+        lblErrorMessage.setForeground(new java.awt.Color(255, 51, 51));
+        lblErrorMessage.setText("El correo ya está registrado!");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(87, 87, 87)
+                        .addComponent(lblArtBalear)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(210, 210, 210)
+                        .addComponent(btnSignUp)))
+                .addContainerGap(77, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -108,19 +138,9 @@ public class RegisterDialog extends javax.swing.JDialog {
                             .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtEmail))
+                    .addComponent(txtEmail)
+                    .addComponent(lblErrorMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(140, 140, 140))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addComponent(lblArtBalear)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(210, 210, 210)
-                        .addComponent(btnSignUp)))
-                .addContainerGap(77, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,7 +167,9 @@ public class RegisterDialog extends javax.swing.JDialog {
                 .addComponent(lblPassword)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
+                .addGap(18, 18, 18)
+                .addComponent(lblErrorMessage)
+                .addGap(16, 16, 16)
                 .addComponent(btnSignUp)
                 .addContainerGap(70, Short.MAX_VALUE))
         );
@@ -156,7 +178,28 @@ public class RegisterDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
+            Usuari newUser = new Usuari();
+            newUser.setFullname(txtName.getText());
+            newUser.setEmail(txtEmail.getText());
+            newUser.setPassword(txtPassword.getText());
+        
+            ApiClient apiClient = new ApiClient();
+        try {
+            apiClient.createUser(newUser);
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(RegisterDialog.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(RegisterDialog.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(RegisterDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+            this.setVisible(false);
+            dispose();
+        
+        lastEmail = txtEmail.getText();
+        lblErrorMessage.setVisible(true);
+        txtEmail.grabFocus();
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
@@ -164,8 +207,14 @@ public class RegisterDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_txtNameActionPerformed
 
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
-        // TODO add your handling code here:
+            if (!txtEmail.getText().equals(lastEmail)) {
+            lblErrorMessage.setVisible(false);
+        }
     }//GEN-LAST:event_txtEmailActionPerformed
+
+    private void txtEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailFocusGained
+        txtEmail.selectAll();
+    }//GEN-LAST:event_txtEmailFocusGained
 
     /**
      * @param args the command line arguments
@@ -215,6 +264,7 @@ public class RegisterDialog extends javax.swing.JDialog {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblArtBalear;
     private javax.swing.JLabel lblEmail;
+    private javax.swing.JLabel lblErrorMessage;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblPassword;
