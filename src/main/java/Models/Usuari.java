@@ -10,6 +10,7 @@ public class Usuari {
     private String token;
 
     public Usuari(int id, String fullname, String email, boolean admin, String password, String token) {
+      
         this.id = id;
         this.fullname = fullname;
         this.email = email;
@@ -17,6 +18,7 @@ public class Usuari {
         this.password = password;
         this.token = token;
     }
+
 
     public Usuari(int id, String fullname, String email, boolean admin, String password) {
         this.id = id;
@@ -38,7 +40,7 @@ public class Usuari {
     public void setToken(String token) {
         this.token = token;
     }
-    
+
 
     public int getId() {
         return id;
