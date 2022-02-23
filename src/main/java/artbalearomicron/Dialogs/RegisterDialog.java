@@ -105,6 +105,11 @@ public class RegisterDialog extends javax.swing.JDialog {
         lblRegister.setText("REGISTER");
 
         btnSignUp.setText("SIGN UP");
+        btnSignUp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSignUpActionPerformed(evt);
+            }
+        });
 
         lblErrorMessage.setForeground(new java.awt.Color(255, 51, 51));
         lblErrorMessage.setText("El correo ya está registrado!");
@@ -178,6 +183,24 @@ public class RegisterDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+
+    }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNameActionPerformed
+
+    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+            if (!txtEmail.getText().equals(lastEmail)) {
+            lblErrorMessage.setVisible(false);
+        }
+    }//GEN-LAST:event_txtEmailActionPerformed
+
+    private void txtEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailFocusGained
+        txtEmail.selectAll();
+    }//GEN-LAST:event_txtEmailFocusGained
+
+    private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
             Usuari newUser = new Usuari();
             newUser.setFullname(txtName.getText());
             newUser.setEmail(txtEmail.getText());
@@ -200,21 +223,7 @@ public class RegisterDialog extends javax.swing.JDialog {
         lastEmail = txtEmail.getText();
         lblErrorMessage.setVisible(true);
         txtEmail.grabFocus();
-    }//GEN-LAST:event_btnLoginActionPerformed
-
-    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNameActionPerformed
-
-    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
-            if (!txtEmail.getText().equals(lastEmail)) {
-            lblErrorMessage.setVisible(false);
-        }
-    }//GEN-LAST:event_txtEmailActionPerformed
-
-    private void txtEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailFocusGained
-        txtEmail.selectAll();
-    }//GEN-LAST:event_txtEmailFocusGained
+    }//GEN-LAST:event_btnSignUpActionPerformed
 
     /**
      * @param args the command line arguments
