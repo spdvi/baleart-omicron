@@ -45,11 +45,11 @@ public class ApiClient {
 
         String token = null;
 
-        String body = "{\"username\":\"" + user.getEmail() + "\",\"password\":\""
+        String body = "{\"email\":\"" + user.getEmail() + "\",\"password\":\""
                 + user.getPassword() + "\"}";
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://www.dawidpelc.com/api/laravel_projecte_baleart-dawidmateujulia/public/api/usuaris"))
+                .uri(URI.create("http://www.dawidpelc.com/api/laravel_projecte_baleart-dawidmateujulia/public/api/login"))
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .header("Content-Type", "application/json")
                 .build();
@@ -63,7 +63,7 @@ public class ApiClient {
 
             Gson gson = new Gson();
             JsonObject jsonObject = gson.fromJson(responseBody, JsonObject.class);
-            token = jsonObject.get("token").getAsString();
+            token = jsonObject.get("result").getAsString();
         }
         else {
             throw new Exception("Response code: " + responseCode);
