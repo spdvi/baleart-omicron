@@ -1,5 +1,7 @@
 package artbalearomicron.Home;
 
+import Models.Usuari;
+import artbalearomicron.Dialogs.LoginDialog;
 import artbalearomicron.Panels.ExpoPanel;
 
 /**
@@ -8,7 +10,9 @@ import artbalearomicron.Panels.ExpoPanel;
  */
 public class MainForm extends javax.swing.JFrame {
 
+    Usuari user = null;
     ExpoPanel expoPanel = new ExpoPanel();
+
     /**
      * Creates new form MainForm
      */
@@ -45,6 +49,11 @@ public class MainForm extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jList1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         pnlMain.setBackground(new java.awt.Color(102, 102, 255));
         pnlMain.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -148,6 +157,12 @@ public class MainForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        LoginDialog loginDialog = new LoginDialog(this, true);
+        user = loginDialog.showDialog();
+        // TODO: Get info completa del user logueado
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments

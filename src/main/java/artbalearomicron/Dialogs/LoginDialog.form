@@ -52,8 +52,11 @@
                       <Component id="lblLogo" min="-2" pref="150" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="202" max="-2" attributes="0"/>
-                      <Component id="btnSignIn" min="-2" pref="69" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="199" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblError" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnLogin" min="-2" pref="69" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
               <EmptySpace pref="77" max="32767" attributes="0"/>
@@ -83,9 +86,11 @@
               <Component id="lblPassword" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="txtPassword" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-              <Component id="btnSignIn" min="-2" pref="32" max="-2" attributes="0"/>
-              <EmptySpace pref="87" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+              <Component id="lblError" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="btnLogin" min="-2" pref="32" max="-2" attributes="0"/>
+              <EmptySpace pref="80" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -164,9 +169,20 @@
         <Property name="text" type="java.lang.String" value="LOGIN"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="btnSignIn">
+    <Component class="javax.swing.JButton" name="btnLogin">
       <Properties>
-        <Property name="text" type="java.lang.String" value="SIGN IN"/>
+        <Property name="text" type="java.lang.String" value="Login"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLoginActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblError">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="33" green="33" red="ff" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
       </Properties>
     </Component>
   </SubComponents>

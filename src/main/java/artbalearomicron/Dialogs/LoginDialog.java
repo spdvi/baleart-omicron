@@ -5,11 +5,19 @@
  */
 package artbalearomicron.Dialogs;
 
+import DataAcces.ApiClient;
+import Models.Usuari;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Alumne
  */
 public class LoginDialog extends javax.swing.JDialog {
+
+    ApiClient apiClient = new ApiClient();
+    Usuari user = null;
 
     /**
      * Creates new form LoginDialog
@@ -17,6 +25,8 @@ public class LoginDialog extends javax.swing.JDialog {
     public LoginDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
+        lblError.setVisible(false);
     }
 
     /**
@@ -37,7 +47,8 @@ public class LoginDialog extends javax.swing.JDialog {
         lblEmail = new javax.swing.JLabel();
         lblPassword = new javax.swing.JLabel();
         lblLogin = new javax.swing.JLabel();
-        btnSignIn = new javax.swing.JButton();
+        btnLogin = new javax.swing.JButton();
+        lblError = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -76,7 +87,15 @@ public class LoginDialog extends javax.swing.JDialog {
         lblLogin.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         lblLogin.setText("LOGIN");
 
-        btnSignIn.setText("SIGN IN");
+        btnLogin.setText("Login");
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
+
+        lblError.setForeground(new java.awt.Color(255, 51, 51));
+        lblError.setText("jLabel1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -105,8 +124,10 @@ public class LoginDialog extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(202, 202, 202)
-                        .addComponent(btnSignIn, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(199, 199, 199)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblError)
+                            .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(77, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -130,13 +151,20 @@ public class LoginDialog extends javax.swing.JDialog {
                 .addComponent(lblPassword)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
-                .addComponent(btnSignIn, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addGap(15, 15, 15)
+                .addComponent(lblError)
+                .addGap(18, 18, 18)
+                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(80, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    public Usuari showDialog() {
+        this.setVisible(true);
+        return user;
+    }
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
         // TODO add your handling code here:
@@ -145,6 +173,32 @@ public class LoginDialog extends javax.swing.JDialog {
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailActionPerformed
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        user = new Usuari();
+        user.setEmail(txtEmail.getText());
+        user.setPassword(txtPassword.getText());
+        try {
+            String token = apiClient.authenticate(user);
+            if (!token.isBlank()) {
+                user.setToken(token);
+                lblError.setText("Logged in: " + token);
+                this.setVisible(false);
+                this.dispose();
+            } else {
+                lblError.setText("User email or password invalid");
+            }
+            lblError.setVisible(true);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
+            lblError.setText("User email or password invalid");
+            lblError.setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
+            lblError.setText("User email or password invalid");
+            lblError.setVisible(true);
+        }
+    }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -189,11 +243,12 @@ public class LoginDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLogin;
     private javax.swing.JButton btnRegister;
-    private javax.swing.JButton btnSignIn;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblArtBalear;
     private javax.swing.JLabel lblEmail;
+    private javax.swing.JLabel lblError;
     private javax.swing.JLabel lblLogin;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblPassword;
