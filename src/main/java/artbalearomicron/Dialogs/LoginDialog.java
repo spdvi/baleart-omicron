@@ -9,6 +9,7 @@ import DataAcces.ApiClient;
 import Models.Usuari;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 
 /**
  *
@@ -167,7 +168,10 @@ public class LoginDialog extends javax.swing.JDialog {
     }
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
-        // TODO add your handling code here:
+        RegisterDialog registerDialog = new RegisterDialog((JFrame)this.getParent(), true);
+        this.setVisible(false);
+        this.dispose();
+        registerDialog.setVisible(true);
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
